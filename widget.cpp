@@ -65,10 +65,10 @@ void Widget::foundClosestCity(int i, int j)
     QString second = _cities[j]->getName();
 
     ui->teBuild->append("Added a new road from " + first + " to " + second);
-    for (int i = _cities.size() - 1 ; i>=0; --i) {
+    for (int k = _cities.size() - 1 ; k>=0; --k) {
 
-        if(!_cities[i]->getVisited()) {
-            CityThread *t = new CityThread(_cities,i,&_mutex);
+        if(!_cities[k]->getVisited() && k != j) {
+            CityThread *t = new CityThread(_cities,j,&_mutex);
             connect(t,&QThread::finished, t, &QObject::deleteLater);
             connect(t, &CityThread::foundClosestCity, this, &Widget::foundClosestCity);
             t->start();
